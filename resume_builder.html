@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Resume Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#0b1020;--bg2:#131a33;--glass:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.14);--txt:#f2f4ff;--muted:#cdd5ff;--chip:#1f2b57;--accent:#7c5cff;--accent2:#00d0ff;--good:#22c55e;--warn:#ff7a7a}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:linear-gradient(120deg,var(--bg1),var(--bg2)) fixed;font-family:Poppins,Inter,system-ui,Arial,sans-serif;color:var(--txt)}
+.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
+nav{position:sticky;top:0;z-index:20;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(120deg,rgba(124,92,255,.25),rgba(0,208,255,.25));backdrop-filter:blur(8px);border-bottom:1px solid var(--stroke)}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.3px}
+.brand .logo{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 210deg at 50% 50%,#7c5cff, #00d0ff, #ff7ad9, #7c5cff);box-shadow:0 6px 24px rgba(124,92,255,.45)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--stroke);background:var(--glass);color:var(--txt);padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;transition:.2s transform,.2s filter}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#070a12;border:0}
+main{display:grid;grid-template-columns:420px 1fr;gap:18px;padding:18px}
+@media(max-width:1100px){main{grid-template-columns:1fr}}
+.card{background:var(--glass);border:1px solid var(--stroke);border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.card .head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--stroke)}
+.card .body{padding:16px}
+.input{display:grid;gap:8px;margin-bottom:12px}
+.input label{font-size:.9rem;color:var(--muted)}
+.input input,.input textarea,.input select{width:100%;background:#0d1430;border:1px solid #1b2553;color:var(--txt);border-radius:14px;padding:10px 12px;outline:0;transition:.15s border}
+.input input:focus,.input textarea:focus{border-color:#4f61ff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.row,.grid2{grid-template-columns:1fr}}
+.tagbar{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:flex;align-items:center;gap:6px;background:linear-gradient(180deg,#0f1a40,#0b1434);border:1px solid #273173;border-radius:999px;padding:7px 10px;font-size:.85rem}
+.tag .x{border:0;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer}
+.section{border:1px dashed #273173;border-radius:14px;padding:12px;margin-bottom:12px;background:linear-gradient(180deg,#0c1331,#0b1230)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.hi{display:flex;align-items:center;gap:10px;font-weight:800}
+.hi .badge{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#070a12;border-radius:999px;padding:6px 10px;font-size:.78rem;font-weight:800}
+.preview{padding:22px}
+.resume{background:white;color:#101626;border-radius:18px;overflow:hidden;border:1px solid #e9edff}
+.sheet{display:grid;grid-template-columns:320px 1fr}
+@media(max-width:900px){.sheet{grid-template-columns:1fr}}
+.left{background:linear-gradient(180deg,#eef2ff,#fafbff);padding:26px;border-right:1px solid #e9edff}
+.right{padding:26px}
+.h1{font-size:2rem;font-weight:800}
+.h2{font-size:1.05rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 10px 0;display:flex;align-items:center;gap:10px}
+.h3{font-size:1rem;font-weight:700;margin:0}
+.muted{color:#54607a}
+.list{display:grid;gap:10px}
+.item{display:grid;gap:4px}
+.rowx{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.badge{padding:6px 10px;border-radius:999px;background:#eef3ff;color:#1b2454;border:1px solid #d7e2ff;display:inline-block;margin:4px 6px 0 0}
+.hr{height:1px;background:#e9edff;margin:14px 0}
+.left .pill{display:inline-flex;align-items:center;gap:8px;background:#151d3d;color:#d6e0ff;border:1px solid #30408a;border-radius:12px;padding:8px 12px;margin:6px 6px 0 0}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar img{width:88px;height:88px;border-radius:14px;object-fit:cover;border:1px solid #e9edff;display:none}
+.theme-dark .resume{background:#0e1117;color:#e7e9ee;border-color:#202a3c}
+.theme-dark .left{background:linear-gradient(180deg,#0a1229,#0a1224);border-right-color:#1a2436}
+.theme-dark .muted{color:#9fb2d9}
+.theme-dark .badge{background:#111927;color:#d7f0ff;border-color:#1e2a3a}
+.theme-dark .hr{background:#1e2a3a}
+.note{font-size:.9rem;color:var(--muted);padding:0 16px 8px 16px}
+footer{padding:14px 18px;color:var(--muted);text-align:center}
+@media print{body{background:white}.app>nav,.note,.print-hide{display:none}.card{background:white;border:0;box-shadow:none}.resume{box-shadow:none}.theme-dark .resume,.theme-dark .left{background:white;color:black;border-color:#eee}.hr{background:#eee}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav>
+<div class="brand"><div class="logo"></div><div>Student Resume Builder</div></div>
+<div class="actions">
+<button class="btn" id="importBtn">Import</button>
+<button class="btn" id="exportBtn">Export</button>
+<button class="btn" id="themeBtn">Theme</button>
+<button class="btn primary" id="printBtn">Download PDF</button>
+</div>
+</nav>
+<main>
+<section class="card">
+<div class="head"><div class="hi">Editor <span class="badge">Student Mode</span></div><div class="note print-hide">Fun colors • Live preview • Works offline</div></div>
+<div class="body">
+<div class="input"><label>Photo</label><input type="file" id="photo" accept="image/*"></div>
+<div class="row">
+<div class="input"><label>First Name</label><input id="firstName" required></div>
+<div class="input"><label>Last Name</label><input id="lastName" required></div>
+</div>
+<div class="input"><label>Course/Headline</label><input id="headline" placeholder="B.Tech CSE Student"></div>
+<div class="grid2">
+<div class="input"><label>Email</label><input id="email" type="email"></div>
+<div class="input"><label>Phone</label><input id="phone" placeholder="+91"></div>
+<div class="input"><label>Location</label><input id="location" placeholder="City, Country"></div>
+<div class="input"><label>Portfolio</label><input id="website" placeholder="https://"></div>
+</div>
+<div class="input"><label>About Me</label><textarea id="summary" rows="4" placeholder="Short intro about you"></textarea></div>
+<div class="input"><label>Skills (press Enter)</label><input id="skillInput" placeholder="Java, Python, HTML"></div>
+<div class="tagbar" id="skills"></div>
+<div class="h2">Education 🎓</div>
+<div id="education"></div>
+<div class="tools"><button class="btn" id="addEdu">Add Education</button></div>
+<div class="h2">Experience 💼</div>
+<div id="experience"></div>
+<div class="tools"><button class="btn" id="addExp">Add Experience</button></div>
+<div class="h2">Projects 💻</div>
+<div id="projects"></div>
+<div class="tools"><button class="btn" id="addProj">Add Project</button></div>
+<div class="h2">Extras ⭐</div>
+<div class="grid2">
+<div class="input"><label>Achievements (comma separated)</label><input id="certs" placeholder="Hackathon Winner, NSS Volunteer"></div>
+<div class="input"><label>Languages (comma separated)</label><input id="langs" placeholder="English, Tamil"></div>
+</div>
+</div>
+</section>
+<section class="card">
+<div class="head"><div class="hi">Preview <span class="badge print-hide">Live</span></div><div class="actions print-hide"><select id="stylePick" class="btn"><option value="light">Light</option><option value="dark">Dark</option></select></div></div>
+<div class="body preview">
+<div class="resume" id="resume">
+<div class="sheet">
+<aside class="left">
+<div class="h1" id="p_name">Your Name</div>
+<div class="muted" id="p_role">Your Course</div>
+<div class="hr"></div>
+<div class="h2">Contact ✉️</div>
+<div class="list">
+<div id="p_email" class="item"></div>
+<div id="p_phone" class="item"></div>
+<div id="p_location" class="item"></div>
+<div id="p_website" class="item"></div>
+</div>
+<div class="h2">Skills 💡</div>
+<div class="list" id="p_skills"></div>
+<div class="h2">Achievements 🏅</div>
+<div class="list" id="p_certs"></div>
+<div class="h2">Languages 🌐</div>
+<div class="list" id="p_langs"></div>
+</aside>
+<section class="right">
+<div class="topbar">
+<div>
+<div class="h1" id="p_name_top">Your Name</div>
+<div class="muted" id="p_role_top">Your Course</div>
+</div>
+<img id="p_photo" alt="">
+</div>
+<div class="h2">About Me 👋</div>
+<div id="p_summary" class="item"></div>
+<div class="h2">Experience</div>
+<div id="p_experience" class="list"></div>
+<div class="h2">Projects</div>
+<div id="p_projects" class="list"></div>
+<div class="h2">Education</div>
+<div id="p_education" class="list"></div>
+</section>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="print-hide">Made for students • Save as PDF using the button above</footer>
+</div>
+<script>
+const $=q=>document.querySelector(q),$$=q=>Array.from(document.querySelectorAll(q));
+const key="student_resume_v1";
+const state={
+  photo:"",firstName:"",lastName:"",headline:"",email:"",phone:"",location:"",website:"",
+  summary:"",skills:[],education:[],experience:[],projects:[],certs:"",langs:"",style:"light"
+};
+function save(){localStorage.setItem(key,JSON.stringify(state))}
+function load(){const s=localStorage.getItem(key);if(s){Object.assign(state,JSON.parse(s))}}
+function setValue(sel,prop){const el=$(sel);el.value=state[prop]||"";el.oninput=e=>{state[prop]=e.target.value;render();validate();save()}}
+function chips(rootId,arr){const root=$(rootId);root.innerHTML="";arr.forEach(v=>{const t=document.createElement("span");t.className="tag";t.textContent=v;const x=document.createElement("button");x.className="x";x.textContent="×";x.onclick=()=>{state.skills=state.skills.filter(k=>k!==v);chips(rootId,state.skills);render();save()};t.appendChild(x);root.appendChild(t)})}
+function fields(defs,obj){const wrap=document.createElement("div");wrap.className="section";defs.forEach(d=>{const div=document.createElement("div");div.className="input";const lab=document.createElement("label");lab.textContent=d.label;div.appendChild(lab);const el=d.type==="textarea"?document.createElement("textarea"):document.createElement("input");if(d.type!=="textarea")el.type=d.type||"text";el.value=obj[d.key]||"";el.oninput=e=>{obj[d.key]=e.target.value;render();save()};div.appendChild(el);wrap.appendChild(div)});const tools=document.createElement("div");tools.className="tools";const rm=document.createElement("button");rm.className="btn";rm.textContent="Remove";rm.onclick=()=>{return removeSection(obj)};const up=document.createElement("button");up.className="btn";up.textContent="Up";up.onclick=()=>{return moveSection(obj,-1)};const dn=document.createElement("button");dn.className="btn";dn.textContent="Down";dn.onclick=()=>{return moveSection(obj,1)};tools.appendChild(rm);tools.appendChild(up);tools.appendChild(dn);wrap.appendChild(tools);return wrap}
+function mount(id,arr,defs){const root=$(id);root.innerHTML="";arr.forEach(o=>root.appendChild(fields(defs,o)))}
+function removeSection(obj){["education","experience","projects"].forEach(k=>{const i=state[k].indexOf(obj);if(i>-1){state[k].splice(i,1);render();save()}})}
+function moveSection(obj,dir){["education","experience","projects"].forEach(k=>{const i=state[k].indexOf(obj);if(i>-1){const j=i+dir;if(j>=0&&j<state[k].length){[state[k][i],state[k][j]]=[state[k][j],state[k][i]];render();save()}}})}
+function ensureDefaults(){if(!state.education.length)state.education=[{school:"Karunya Institute of Technology",degree:"B.Tech Computer Science",start:"2023",end:"2027",info:"CGPA: 8.7; Class Representative"}];if(!state.experience.length)state.experience=[{company:"Nature Club",role:"Volunteer",start:"2024",end:"Present",desc:"Organized campus clean-up drives and tree plantation events"}];if(!state.projects.length)state.projects=[{name:"Healthy Recipe Sharing Platform",tech:"HTML, CSS, JS",link:"https://example.com",desc:"Built a responsive website to share and rate healthy recipes"}];if(!state.skills.length)state.skills=["Java","Python","HTML","CSS","JavaScript"] ;if(!state.summary)state.summary="Enthusiastic CSE student passionate about building simple, useful projects. Loves problem solving, clubs, and hackathons.";if(!state.firstName)state.firstName="Raghul";if(!state.lastName)state.lastName="V";if(!state.headline)state.headline="B.Tech CSE Student";if(!state.email)state.email="raghul@example.com";if(!state.phone)state.phone="+91 90000 00000";if(!state.location)state.location="Coimbatore, India";if(!state.website)state.website="https://portfolio.example.com";if(!state.certs)state.certs="Hackathon Finalist, NSS Volunteer";if(!state.langs)state.langs="English, Tamil"}
+function render(){
+  $("#p_name").textContent=(state.firstName+" "+state.lastName).trim()||"Your Name";
+  $("#p_name_top").textContent=$("#p_name").textContent;
+  $("#p_role").textContent=state.headline||"Your Course";
+  $("#p_role_top").textContent=$("#p_role").textContent;
+  $("#p_email").textContent=state.email||"";
+  $("#p_phone").textContent=state.phone||"";
+  $("#p_location").textContent=state.location||"";
+  $("#p_website").textContent=state.website||"";
+  $("#p_summary").textContent=state.summary||"";
+  const s=$("#p_skills");s.innerHTML="";state.skills.forEach(k=>{const b=document.createElement("span");b.className="badge";b.textContent=k;s.appendChild(b)});
+  const c=$("#p_certs");c.innerHTML="";(state.certs||"").split(",").map(x=>x.trim()).filter(Boolean).forEach(k=>{const b=document.createElement("span");b.className="badge";b.textContent=k;c.appendChild(b)});
+  const l=$("#p_langs");l.innerHTML="";(state.langs||"").split(",").map(x=>x.trim()).filter(Boolean).forEach(k=>{const b=document.createElement("span");b.className="badge";b.textContent=k;l.appendChild(b)});
+  const ex=$("#p_experience");ex.innerHTML="";state.experience.forEach(e=>{const it=document.createElement("div");it.className="item";const t=document.createElement("div");t.className="h3";t.textContent=(e.role||"Role")+" — "+(e.company||"Org");const m=document.createElement("div");m.className="muted";m.textContent=[e.start,e.end].filter(Boolean).join(" – ");const d=document.createElement("div");d.textContent=e.desc||"";it.appendChild(t);it.appendChild(m);it.appendChild(d);ex.appendChild(it)});
+  const pj=$("#p_projects");pj.innerHTML="";state.projects.forEach(p=>{const it=document.createElement("div");it.className="item";const t=document.createElement("div");t.className="h3";const a=document.createElement("a");a.href=p.link||"#";a.target="_blank";a.textContent=p.name||"Project";t.appendChild(a);const m=document.createElement("div");m.className="muted";m.textContent=p.tech||"";const d=document.createElement("div");d.textContent=p.desc||"";it.appendChild(t);it.appendChild(m);it.appendChild(d);pj.appendChild(it)});
+  const ed=$("#p_education");ed.innerHTML="";state.education.forEach(e=>{const it=document.createElement("div");it.className="item";const t=document.createElement("div");t.className="h3";t.textContent=(e.degree||"Degree")+" — "+(e.school||"School");const m=document.createElement("div");m.className="muted";m.textContent=[e.start,e.end].filter(Boolean).join(" – ");const d=document.createElement("div");d.textContent=e.info||"";it.appendChild(t);it.appendChild(m);it.appendChild(d);ed.appendChild(it)});
+  const img=$("#p_photo");if(state.photo){img.src=state.photo;img.style.display="block"}else{img.style.display="none"}
+  const root=$("#resume").parentElement.parentElement.parentElement;root.classList.toggle("theme-dark",state.style==="dark")
+}
+function bind(){
+  setValue("#firstName","firstName");setValue("#lastName","lastName");setValue("#headline","headline");setValue("#email","email");setValue("#phone","phone");setValue("#location","location");setValue("#website","website");setValue("#summary","summary");setValue("#certs","certs");setValue("#langs","langs");
+  const sin=$("#skillInput");const cont=$("#skills");sin.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();const v=(sin.value||"").trim();if(!v)return;state.skills.push(v);sin.value="";chips("#skills",state.skills);render();save()}};chips("#skills",state.skills);
+  const eduDefs=[{label:"School/University",key:"school"},{label:"Degree/Programme",key:"degree"},{label:"Start",key:"start"},{label:"End",key:"end"},{label:"Details",key:"info",type:"textarea"}];
+  const expDefs=[{label:"Organization",key:"company"},{label:"Role",key:"role"},{label:"Start",key:"start"},{label:"End",key:"end"},{label:"Description",key:"desc",type:"textarea"}];
+  const projDefs=[{label:"Project Name",key:"name"},{label:"Tech/Stack",key:"tech"},{label:"Link",key:"link"},{label:"Description",key:"desc",type:"textarea"}];
+  mount("#education",state.education,eduDefs);mount("#experience",state.experience,expDefs);mount("#projects",state.projects,projDefs);
+  $("#addEdu").onclick=()=>{state.education.push({school:"",degree:"",start:"",end:"",info:""});bind();render();save()};
+  $("#addExp").onclick=()=>{state.experience.push({company:"",role:"",start:"",end:"",desc:""});bind();render();save()};
+  $("#addProj").onclick=()=>{state.projects.push({name:"",tech:"",link:"",desc:""});bind();render();save()};
+  $("#photo").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.photo=r.result;render();save()};r.readAsDataURL(f)};
+  $("#stylePick").value=state.style||"light";$("#stylePick").onchange=e=>{state.style=e.target.value;render();save()};
+  $("#printBtn").onclick=()=>window.print();
+  $("#exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="student_resume.json";a.click();URL.revokeObjectURL(a.href)};
+  $("#importBtn").onclick=()=>{const inp=document.createElement("input");inp.type="file";inp.accept="application/json";inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const obj=JSON.parse(r.result);Object.assign(state,obj);bind();render();save()}catch{}};r.readAsText(f)};inp.click()};
+  $("#themeBtn").onclick=()=>{state.style=state.style==="dark"?"light":"dark";$("#stylePick").value=state.style;render();save()}
+}
+function validate(){const e=$("#email");if(e.value&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.value)){e.style.borderColor="#ff7a7a"}else{e.style.borderColor="#1b2553"}}
+function start(){load();ensureDefaults();bind();render();validate()}
+document.addEventListener("DOMContentLoaded",start);
+</script>
+</body>
+</html>
